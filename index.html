@@ -118,54 +118,65 @@
   <!-- Log Workout Button -->
   <button id="logWorkoutBtn">I Showed Up Today</button>
 
-  <script>
-    // Today's Date
-    const today = new Date();
-    const dateElement = document.getElementById('date');
-    dateElement.textContent = today.toLocaleDateString();
+ <script>
+  // Today's Date
+  const today = new Date();
+  const dateElement = document.getElementById('date');
+  const todayStr = today.toLocaleDateString();
+  dateElement.textContent = todayStr;
 
-    // Motivational Quotes
-    const quotes = [
-      "The only bad workout is the one that didn’t happen.",
-      "Success starts with showing up.",
-      "Discipline is choosing between what you want now and what you want most.",
-      "Your body can stand almost anything. It’s your mind that you have to convince.",
-      "Don’t stop when you’re tired. Stop when you’re done."
-    ];
+  // Motivational Quotes
+  const quotes = [
+    "The only bad workout is the one that didn’t happen.",
+    "Success starts with showing up.",
+    "Discipline is choosing between what you want now and what you want most.",
+    "Your body can stand almost anything. It’s your mind that you have to convince.",
+    "Don’t stop when you’re tired. Stop when you’re done."
+  ];
 
-    let quoteIndex = 0;
-    const quoteElement = document.getElementById('quote');
-    function changeQuote() {
-      quoteElement.textContent = quotes[quoteIndex];
-      quoteIndex = (quoteIndex + 1) % quotes.length;
+  let quoteIndex = 0;
+  const quoteElement = document.getElementById('quote');
+  function changeQuote() {
+    quoteElement.textContent = quotes[quoteIndex];
+    quoteIndex = (quoteIndex + 1) % quotes.length;
+  }
+
+  setInterval(changeQuote, 20000);
+  changeQuote();
+
+  // Progress Bar
+  const progressBar = document.getElementById('progressBar');
+  const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+  const dayOfMonth = today.getDate();
+
+  // Load logged days from localStorage
+  const STORAGE_KEY = `gym-entries-${today.getFullYear()}-${today.getMonth() + 1}`;
+  let loggedDays = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+  // Create progress bar
+  const dayElements = [];
+  for (let i = 1; i <= daysInMonth; i++) {
+    const dayElement = document.createElement('div');
+    dayElement.classList.add('progress-day');
+    if (i === dayOfMonth) dayElement.classList.add('today');
+    if (loggedDays.includes(i)) dayElement.classList.add('filled');
+    progressBar.appendChild(dayElement);
+    dayElements.push(dayElement);
+  }
+
+  // Log Workout
+  const logWorkoutBtn = document.getElementById('logWorkoutBtn');
+  logWorkoutBtn.addEventListener('click', function() {
+    if (!loggedDays.includes(dayOfMonth)) {
+      loggedDays.push(dayOfMonth);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(loggedDays));
+      dayElements[dayOfMonth - 1].classList.add('filled');
+    } else {
+      alert("You've already logged today!");
     }
+  });
+</script>
 
-    // Change quote every 20 seconds
-    setInterval(changeQuote, 20000);
-    changeQuote(); // Initialize first quote
-
-    // Month Progress Bar
-    const progressBar = document.getElementById('progressBar');
-    const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
-    const dayOfMonth = today.getDate();
-
-    // Create progress days
-    for (let i = 1; i <= daysInMonth; i++) {
-      const dayElement = document.createElement('div');
-      dayElement.classList.add('progress-day');
-      if (i === dayOfMonth) {
-        dayElement.classList.add('today');
-      }
-      progressBar.appendChild(dayElement);
-    }
-
-    // Log Workout Button Functionality
-    const logWorkoutBtn = document.getElementById('logWorkoutBtn');
-    logWorkoutBtn.addEventListener('click', function() {
-      const progressDays = document.querySelectorAll('.progress-day');
-      progressDays[dayOfMonth - 1].classList.add('filled');
-    });
-  </script>
 
 </body>
 </html>
