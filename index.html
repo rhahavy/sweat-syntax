@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I Showed Up</title>
+  <style>
+    /* Global Styles */
+    :root {
+      --primary: #732d91;
+      --accent: #b07acc;
+      --background: #fceff9;
+      --card: #ffffff;
+      --text: #4a4a4a;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      color: var(--primary);
+      font-size: 2.5rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+
+    /* Motivational Quote */
+    #quote {
+      font-style: italic;
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+
+    /* Date */
+    #date {
+      font-size: 1rem;
+      color: var(--primary);
+      margin-top: 10px;
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 30px;
+      width: 80%;
+      max-width: 400px;
+    }
+
+    .progress-day {
+      width: 15px;
+      height: 15px;
+      margin: 3px;
+      border-radius: 50%;
+      background-color: #ddd;
+    }
+
+    .progress-day.filled {
+      background-color: var(--primary);
+    }
+
+    .progress-day.today {
+      background-color: var(--accent);
+    }
+
+    /* Button Styles */
+    button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>I Showed Up</h1>
+  <h2>a personal gym diary</h2>
+
+  <!-- Today's Date -->
+  <div id="date"></div>
+
+  <!-- Motivational Quote -->
+  <div id="quote"></div>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- Log Workout Button -->
+  <button id="logWorkoutBtn">I Showed Up Today</button>
+
+  <script>
+    // Today's Date
+    const today = new Date();
+    const dateElement = document.getElementById('date');
+    dateElement.textContent = today.toLocaleDateString();
+
+    // Motivational Quotes
+    const quotes = [
+      "The only bad workout is the one that didn’t happen.",
+      "Success starts with showing up.",
+      "Discipline is choosing between what you want now and what you want most.",
+      "Your body can stand almost anything. It’s your mind that you have to convince.",
+      "Don’t stop when you’re tired. Stop when you’re done."
+    ];
+
+    let quoteIndex = 0;
+    const quoteElement = document.getElementById('quote');
+    function changeQuote() {
+      quoteElement.textContent = quotes[quoteIndex];
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+    }
+
+    // Change quote every 20 seconds
+    setInterval(changeQuote, 20000);
+    changeQuote(); // Initialize first quote
+
+    // Month Progress Bar
+    const progressBar = document.getElementById('progressBar');
+    const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+    const dayOfMonth = today.getDate();
+
+    // Create progress days
+    for (let i = 1; i <= daysInMonth; i++) {
+      const dayElement = document.createElement('div');
+      dayElement.classList.add('progress-day');
+      if (i === dayOfMonth) {
+        dayElement.classList.add('today');
+      }
+      progressBar.appendChild(dayElement);
+    }
+
+    // Log Workout Button Functionality
+    const logWorkoutBtn = document.getElementById('logWorkoutBtn');
+    logWorkoutBtn.addEventListener('click', function() {
+      const progressDays = document.querySelectorAll('.progress-day');
+      progressDays[dayOfMonth - 1].classList.add('filled');
+    });
+  </script>
+
+</body>
+</html>
