@@ -103,6 +103,33 @@
 </head>
 <body>
 
+  <!-- Workout Form (Hidden Initially) -->
+<div id="workoutForm" style="display: none; margin-top: 20px;">
+  <h3>Log Your Workout</h3>
+
+  <div>
+    <h4>Strength</h4>
+    <input type="text" id="strengthExercise" placeholder="Exercise (e.g. Bench Press)" />
+    <input type="text" id="setsReps" placeholder="Sets x Reps (e.g. 3x10)" />
+    <input type="text" id="weight" placeholder="Weight (e.g. 50kg)" />
+  </div>
+
+  <div>
+    <h4>Cardio</h4>
+    <input type="text" id="cardioType" placeholder="Type (e.g. Running)" />
+    <input type="text" id="duration" placeholder="Duration (e.g. 30 mins)" />
+    <input type="text" id="distance" placeholder="Distance (e.g. 5 km)" />
+  </div>
+
+  <div>
+    <h4>Notes</h4>
+    <textarea id="workoutNotes" placeholder="How did you feel? Anything else?"></textarea>
+  </div>
+
+  <button id="submitWorkout">Submit Workout</button>
+</div>
+
+
   <h1>I Showed Up</h1>
   <h2>a personal gym diary</h2>
 
