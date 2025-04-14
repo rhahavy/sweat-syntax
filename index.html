@@ -146,13 +146,11 @@
   <button id="logWorkoutBtn">I Showed Up Today</button>
 
  <script>
-  // Today's Date
   const today = new Date();
-  const dateElement = document.getElementById('date');
   const todayStr = today.toLocaleDateString();
+  const dateElement = document.getElementById('date');
   dateElement.textContent = todayStr;
 
-  // Motivational Quotes
   const quotes = [
     "The only bad workout is the one that didn’t happen.",
     "Success starts with showing up.",
@@ -167,20 +165,17 @@
     quoteElement.textContent = quotes[quoteIndex];
     quoteIndex = (quoteIndex + 1) % quotes.length;
   }
-
   setInterval(changeQuote, 20000);
   changeQuote();
 
-  // Progress Bar
   const progressBar = document.getElementById('progressBar');
   const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
   const dayOfMonth = today.getDate();
 
-  // Load logged days from localStorage
   const STORAGE_KEY = `gym-entries-${today.getFullYear()}-${today.getMonth() + 1}`;
+  const WORKOUT_KEY = `gym-workout-${todayStr}`;
   let loggedDays = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
-  // Create progress bar
   const dayElements = [];
   for (let i = 1; i <= daysInMonth; i++) {
     const dayElement = document.createElement('div');
@@ -191,18 +186,56 @@
     dayElements.push(dayElement);
   }
 
-  // Log Workout
   const logWorkoutBtn = document.getElementById('logWorkoutBtn');
-  logWorkoutBtn.addEventListener('click', function() {
+  const workoutForm = document.getElementById('workoutForm');
+  const submitWorkoutBtn = document.getElementById('submitWorkout');
+
+  logWorkoutBtn.addEventListener('click', function () {
     if (!loggedDays.includes(dayOfMonth)) {
-      loggedDays.push(dayOfMonth);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(loggedDays));
-      dayElements[dayOfMonth - 1].classList.add('filled');
+      // Show form instead of logging immediately
+      workoutForm.style.display = 'block';
     } else {
       alert("You've already logged today!");
     }
   });
+
+  submitWorkoutBtn.addEventListener('click', function () {
+    const strength = {
+      exercise: document.getElementById('strengthExercise').value,
+      setsReps: document.getElementById('setsReps').value,
+      weight: document.getElementById('weight').value
+    };
+
+    const cardio = {
+      type: document.getElementById('cardioType').value,
+      duration: document.getElementById('duration').value,
+      distance: document.getElementById('distance').value
+    };
+
+    const notes = document.getElementById('workoutNotes').value;
+
+    const workoutData = {
+      date: todayStr,
+      strength,
+      cardio,
+      notes
+    };
+
+    // Save workout
+    localStorage.setItem(WORKOUT_KEY, JSON.stringify(workoutData));
+
+    // Save day log
+    loggedDays.push(dayOfMonth);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(loggedDays));
+    dayElements[dayOfMonth - 1].classList.add('filled');
+
+    // Hide form
+    workoutForm.style.display = 'none';
+
+    alert("Workout logged! 💪");
+  });
 </script>
+
 
 
 </body>
