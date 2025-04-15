@@ -25,3 +25,12 @@
   padding: 8px 14px;
   border-radius: 8px;
 }
+
+#workoutHistory pre {
+  background-color: #2d2d2d;
+  color: #f8f8f2;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  text-align: left;
+}
