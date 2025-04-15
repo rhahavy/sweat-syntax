@@ -231,8 +231,12 @@
       notes
     };
 
-    // Save workout
-    localStorage.setItem(WORKOUT_KEY, JSON.stringify(workoutData));
+  // Save today's workout
+localStorage.setItem(WORKOUT_KEY, JSON.stringify(workoutData));
+
+// Also add to history
+saveWorkout(workoutData);
+
 
     // Save day log
     loggedDays.push(dayOfMonth);
