@@ -18,3 +18,10 @@ function loadWorkoutHistory() {
 
 // Call this on page load
 loadWorkoutHistory();
+
+function saveWorkout(log) {
+  const history = JSON.parse(localStorage.getItem('workoutLogs')) || [];
+  history.push(log);
+  localStorage.setItem('workoutLogs', JSON.stringify(history));
+}
+
